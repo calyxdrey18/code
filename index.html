@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Calyx-MD Pair-Code Generator</title>
+  <style>
+    body {
+      background: #0e0e0e;
+      color: #f0f0f0;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .container {
+      background: #1e1e1e;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 0 15px rgba(0, 255, 157, 23);
+      text-align: center;
+      width: 80%;
+      max-width: 400px;
+    }
+
+    input[type="text"] {
+      padding: 10px;
+      width: 90%;
+      border: none;
+      border-radius: 6px;
+      margin-bottom: 15px;
+    }
+
+    button {
+      background: #00ff9d;
+      color: #000;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    button:hover {
+      background: #00d78c;
+    }
+
+    #codeBox {
+      background: #111;
+      border: 2px dashed #00ff9d;
+      padding: 15px;
+      border-radius: 8px;
+      font-size: 1.4em;
+      margin-top: 15px;
+      user-select: all;
+    }
+
+    .social-icons {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+      gap: 15px;
+    }
+
+    .social-icons a svg {
+      width: 30px;
+      height: 30px;
+      fill: #00ff9d;
+      transition: fill 0.2s;
+    }
+
+    .social-icons a:hover svg {
+      fill: #00d78c;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Calyx-MD Pair-Code Generator</h1>
+    <input type="text" id="numberInput" placeholder="Enter phone number with country code" />
+    <button onclick="generateCode()">Generate Pair Code</button>
+
+    <div id="codeBox" style="display:none;"></div>
+    <button id="copyBtn" style="display:none;" onclick="copyCode()">Copy Code</button>
+
+    <div class="social-icons">
+      <a href="https://www.youtube.com/@CalyxDrey" target="_blank" title="YouTube">
+        <svg viewBox="0 0 24 24"><path d="M23.498 6.186a2.985 2.985 0 0 0-2.098-2.108C19.646 3.5 12 3.5 12 3.5s-7.646 0-9.4.578A2.985 2.985 0 0 0 .502 6.186 29.94 29.94 0 0 0 0 12c0 1.961.219 3.843.502 5.814a2.985 2.985 0 0 0 2.098 2.108c1.754.578 9.4.578 9.4.578s7.646 0 9.4-.578a2.985 2.985 0 0 0 2.098-2.108A29.94 29.94 0 0 0 24 12a29.94 29.94 0 0 0-.502-5.814zM9.75 15.02V8.98L15.5 12l-5.75 3.02z"/></svg>
+      </a>
+      <a href="https://whatsapp.com/channel/0029VagE9oHDp2Q34xE8S22c" target="_blank" title="WhatsApp">
+        <svg viewBox="0 0 32 32"><path d="M16.004 2.667C8.637 2.667 2.671 8.632 2.671 16c0 2.822.749 5.565 2.173 7.979L2 30l6.238-2.808A13.249 13.249 0 0 0 16.004 29.333c7.367 0 13.333-5.966 13.333-13.333 0-7.368-5.966-13.333-13.333-13.333zm0 24.533a11.113 11.113 0 0 1-5.667-1.551l-.408-.244-3.7 1.666.782-3.887-.25-.4a11.052 11.052 0 0 1-1.695-5.784c0-6.13 4.987-11.113 11.113-11.113S27.117 9.87 27.117 16s-4.987 11.2-11.113 11.2zm6.112-8.422c-.333-.166-1.978-.978-2.287-1.089-.308-.112-.533-.166-.758.166-.224.333-.868 1.089-1.064 1.312-.196.224-.393.25-.726.084-.333-.166-1.406-.518-2.677-1.65-.99-.884-1.658-1.978-1.85-2.31-.196-.333-.022-.513.147-.678.151-.15.333-.392.497-.588.167-.196.224-.334.334-.558.111-.224.056-.42-.028-.588-.084-.166-.758-1.833-1.039-2.51-.272-.654-.548-.565-.758-.576h-.65c-.196 0-.513.073-.782.357-.27.285-1.026 1.002-1.026 2.442s1.051 2.827 1.198 3.024c.147.196 2.066 3.157 5.008 4.427.7.301 1.247.48 1.672.614.702.224 1.34.193 1.846.117.562-.084 1.978-.808 2.259-1.59.28-.782.28-1.452.196-1.59-.084-.137-.305-.221-.638-.388z"/></svg>
+      </a>
+      <a href="https://t.me/calyx_drey_hacks" target="_blank" title="Telegram">
+        <svg viewBox="0 0 24 24"><path d="M9.993 16.546 9.83 19.49c.356 0 .511-.152.695-.332l1.67-1.62 3.465 2.545c.635.347 1.086.165 1.247-.586l2.26-10.64c.231-.978-.372-1.369-.992-1.13L3.1 10.6c-.956.369-.946.902-.164 1.14l4.94 1.544 11.44-7.09c.27-.17.518-.075.316.095L9.993 16.546z"/></svg>
+      </a>
+    </div>
+  </div>
+
+  <script>
+    async function generateCode() {
+      const number = document.getElementById("numberInput").value.trim();
+      const codeBox = document.getElementById("codeBox");
+      const copyBtn = document.getElementById("copyBtn");
+
+      codeBox.style.display = "block";
+      codeBox.textContent = "Fetching code...";
+      copyBtn.style.display = "none";
+
+      try {
+        const res = await fetch(`https://knight-bot-paircode.onrender.com/code?number=${encodeURIComponent(number)}`);
+        const data = await res.json();
+
+        if (data && data.code) {
+          codeBox.textContent = data.code;
+          copyBtn.style.display = "inline-block";
+        } else {
+          codeBox.textContent = "Failed to retrieve code.";
+        }
+      } catch {
+        codeBox.textContent = "Error fetching code.";
+      }
+    }
+
+    function copyCode() {
+      const codeText = document.getElementById("codeBox").textContent;
+      navigator.clipboard.writeText(codeText).then(() => {
+        alert("Code copied to clipboard!");
+      });
+    }
+  </script>
+</body>
+</html>
